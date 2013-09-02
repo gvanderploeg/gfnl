@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Geert en Fieke, Armin en Joas</title>
+    <link href='http://fonts.googleapis.com/css?family=The+Girl+Next+Door' rel='stylesheet' type='text/css'>
+    <style>
+        html, body {
+            padding: 0;
+            margin: 0;
+        }
+        h1 {
+            margin: 0;
+            padding: 0;
+            font-family: 'The Girl Next Door', cursive;
+            font-weight:normal;
+            font-size: 3em;
+            text-align: center;
+            background-color: #efefef;
+        }
+        div.picrow {
+            border: 0 solid #000;
+        }
+
+        div#picstest {
+            height: 0;
+            width: 90%;
+        }
+
+        div#pics {
+            text-align: center;
+        }
+
+        div#loading {
+            margin-top: 100px;
+            display: none;
+            text-align: center;
+        }
+
+        img.photo {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Geert en Fieke . nl</h1>
+        <div id="picstest"></div>
+        <div id="pics"></div>
+        <div id="loading"><img src="img/ajax-loader.gif" /></div>
+
+<script src="js/jquery.min.js" type="text/javascript"></script>
+<script src="js/photos.js" type="text/javascript"></script>
+</body>
+</html>
