@@ -21,6 +21,12 @@ var justifiedLayout = {};
 
     var lastWidth = 0;
     var photoArray = null;
+
+  /**
+   * An array in the form that slimbox2 understands
+   * @type {null}
+   */
+  var photoArrayForLightbox = null;
     var maxPhotos = 30;
     // total number of images appearing in all previous rows
     var baseLine = 0;
@@ -39,7 +45,7 @@ var justifiedLayout = {};
     });
 
     context.loadData = function() {
-        photoArray = null;
+        photoArray = photoArrayForLightbox = [];
         baseLine = 0;
         maxPhotos = 30;
         $("div#pics").empty();
@@ -49,30 +55,47 @@ var justifiedLayout = {};
         var sort = $("#sort").val();
 
 		  // http://api.flickr.com/services/rest/?method=flickr.photosets.getPhotos&api_key=03ff68be76d279f7042a77210bc30723&photoset_id=72157626068285517&format=json&nojsoncallback=1
-        $.getJSON("http://api.flickr.com/services/rest/", {
-                method: "flickr.photosets.getPhotos",
-                api_key: "03ff68be76d279f7042a77210bc30723",
-			  		    photoset_id: "72157635348796256",
-                extras: "url_n,url_m,url_z,url_l",
-                format: "json",
-                nojsoncallback: 1
-            },
-
-            function(data, status) {
-                photoArray = data.photoset.photo;
-					 console.log("Data from flickr contains " + photoArray.length + " items");
-                updateRows();
-                $("#loading").hide();
-            }
+      $.getJSON("http://api.flickr.com/services/rest/", {
+          method: "flickr.photosets.getPhotos",
+          api_key: "03ff68be76d279f7042a77210bc30723",
+          photoset_id: "72157635348796256",
+          extras: "url_n,url_m,url_z,url_l,date_upload",
+          format: "json",
+          nojsoncallback: 1
+        }, function (data, status) {
+            photoArray = data.photoset.photo;
+            orderPhotoArray();
+            fillPhotoArrayForLightbox();
+            console.log("Data from flickr contains " + photoArray.length + " items");
+            updateRows();
+            $("#loading").hide();
+          }
         );
     };
 
+  var orderPhotoArray = function() {
+    // Order photo array by upload date, descending
+    photoArray.sort(function(a, b) {
+      return (a.dateupload < b.dateupload ? 1 : (a.dateupload > b.dateupload ? -1 : 0));
+    });
+  };
+  var fillPhotoArrayForLightbox = function() {
+    $(photoArray).each(function() {
+      photoArrayForLightbox.push([this.url_l, this.title]);
+    });
+  }
     var clickHandler = function(photo) {
-          return function() {
-            var url = "http://www.flickr.com/photos/geertpl/" + photo.id;
-            location.href = url;
-          };
-        };
+      return function() {
+        // Start at element that is currently clicked on
+        var startElement = photoArray.indexOf(photo);
+        $.slimbox(photoArrayForLightbox, startElement, {
+          "imageFadeDuration": 50,
+          "resizeDuration": 50,
+          "overlayOpacity": 0.9,
+          "captionAnimationDuration": 1
+        });
+      }
+    };
 
     // only call this when either the data is loaded, or the windows resizes by a chunk
     var updateRows = function() {
