@@ -66,7 +66,7 @@ var justifiedLayout = {};
             photoArray = data.photoset.photo;
             orderPhotoArray();
             fillPhotoArrayForLightbox();
-            console.log("Data from flickr contains " + photoArray.length + " items");
+            // console.log("Data from flickr contains " + photoArray.length + " items");
             updateRows();
             $("#loading").hide();
           }
@@ -134,7 +134,7 @@ var justifiedLayout = {};
 
         var rowNum = 0;
         var limit = Math.min(maxPhotos, photos.length);
-		  console.log("Limit: " + limit + ", maxPhotos: " + maxPhotos + ", photos.length: " + photos.length);
+		    // console.log("Limit: " + limit + ", maxPhotos: " + maxPhotos + ", photos.length: " + photos.length);
 
         while(baseLine < limit) {
             rowNum++;
@@ -170,7 +170,7 @@ var justifiedLayout = {};
             d_row.height(ht + border * 2);
 
             while( i < nrOfImagesInRow ) {
-              console.log("processing image " + i);
+              // console.log("processing image " + i);
 
                 var photo = photos[baseLine + i];
                 // Calculate new width based on ratio
@@ -240,13 +240,14 @@ var justifiedLayout = {};
         document.documentElement.scrollTop  ||
         document.body.scrollTop || 0;
         // Trigger for scrolls within 20 pixels from page bottom
+        // console.log("pageheight: " + pageHeight + ", " + "viewportHeight: " + viewportHeight + ", " + "scrollHeight: " + scrollHeight, "result: " + (pageHeight - viewportHeight - scrollHeight));
         return pageHeight - viewportHeight - scrollHeight < 10;
     };
 
     var pollLevel = function() {
-        if( photoArray && levelReached() ) {
+        if( photoArray && photoArray.length > 0 && levelReached() ) {
             maxPhotos = Math.min(maxPhotos+30, 150);
-			  console.log("maxPhotos: " + maxPhotos);
+			      //console.log("maxPhotos: " + maxPhotos);
             processPhotos(photoArray);
         }
         setTimeout(pollLevel, 100);
