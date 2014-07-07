@@ -55,7 +55,7 @@ var justifiedLayout = {};
         var sort = $("#sort").val();
 
 		  // http://api.flickr.com/services/rest/?method=flickr.photosets.getPhotos&api_key=03ff68be76d279f7042a77210bc30723&photoset_id=72157626068285517&format=json&nojsoncallback=1
-      $.getJSON("http://api.flickr.com/services/rest/", {
+      $.getJSON("https://api.flickr.com/services/rest/", {
           method: "flickr.photosets.getPhotos",
           api_key: "03ff68be76d279f7042a77210bc30723",
           photoset_id: "72157635348796256",
